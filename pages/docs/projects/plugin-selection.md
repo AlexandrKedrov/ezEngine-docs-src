@@ -21,6 +21,8 @@ Enable the checkmark for a plugin to make it active in this project.
 
 If you *Enable Reload* for a plugin, the engine will load a copy of the runtime plugin DLL, rather than the original DLL. This allows to edit and compile the DLL while the editor is running. Typically, this should only be active for a single, game-specific plugin. See [Hot Reloading C++ Game Plugins in the Editor](../custom-code/cpp/cpp-code-reload.md) for details.
 
+This option is only available for plugins that explicitly support it. The checkbox is greyed out for plugins that do not. A plugin opts in by setting `AllowEnableReload` to `true` in its [ezPluginBundle file](#ezpluginbundle-files). This should only be done for plugins that are loaded purely dynamically at runtime and not linked against directly.
+
 ## Custom Plugin Entries
 
 If you have a [custom plugin](../custom-code/cpp/engine-plugins.md) that should show up in this list, you need to add an `ezPluginBundle` file.

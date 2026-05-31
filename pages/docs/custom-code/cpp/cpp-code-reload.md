@@ -34,6 +34,7 @@ You can always manually restart the engine process through *Tools > Reload Engin
 
 The `Enable Reload` option should only be used for select game plugins. Enabling this feature can have unintended side-effects.
 
+* The `Enable Reload` checkbox is only available for plugins that explicitly support it. For all other plugins it is greyed out in the [plugin selection](../../projects/plugin-selection.md) dialog. A plugin can opt in by setting `AllowEnableReload` to `true` in its [ezPluginBundle file](../../projects/plugin-selection.md#ezpluginbundle-files).
 * If any code links against a plugin, that plugin cannot be loaded as a copy. Therefore, if you want to put shared code into a separate library that other users of your plugins link against, you can't load that shared library as a copy.
 * You can't compile code while debugging a process. To compile your code, you first have to detach your debugger. In Visual Studio that can be done via `Debug > Detach All`.
 * Consequently, if you want to continue debugging after you restarted the engine process, you need to manually re-attach your debugger to *ezEditorEngineProcess.exe*. In Visual Studio this is done via `Debug > Attach to Process...` or even better `Debug > Reattach to Process` (`SHIFT+ALT+P`) when you want to repeat the same thing a second time.
