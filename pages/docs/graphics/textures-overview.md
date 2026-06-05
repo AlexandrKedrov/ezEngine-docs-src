@@ -48,6 +48,10 @@ The image below shows the difference of a texture that is completely black in th
 
 **Filtering:** Specifies with which *filter method* the texture is sampled during rendering. If you select one of the *Fixed* modes, it will be filtered exactly with that mode. Mostly useful, if you want to use *Nearest* filtering, for artistic reasons. Using one of the other modes (*Low Quality* / *Default Quality* / *High Quality*) the texture will use a filtering mode that is decided at runtime. For example, if the *default* sampling mode is set to *Anisotropic 2x*, then *High Quality* will result in *Anisotropic 4x* (one mode higher) and *Low Quality* will be result in *Trilinear* sampling (one mode lower). *Lowest* and *Highest* will use two modes lower/higher, though *Nearest* filtering will never be used.
 
+> **Note**
+>
+> The default texture filtering mode can be changed in C++ through `ezRenderContext::SetDefaultTextureFilter()`. Changing the value only affects textures loaded after the call, so set this at the start of your application.
+
 **AddressMode:** Specifies whether a texture will be repeated when the texture coordinates used to sample the texture are outside the `[0; 1]` range. The 3D preview shows the effect of this property after you transform the asset.
 
 **Channel Mapping:** This option allows you to choose which channels the texture will have, and from which files to take the data for each channel. `RGB(A) - Single Input` is the most common choice, but you can also combine multiple textures, e.g. take the color from one input file and the alpha channel from another.
