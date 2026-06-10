@@ -70,6 +70,23 @@ def DetermineLinkName(curName: str, filePath: str):
     return "LINK-ERROR"
 
 
+def GetCodeBlockRanges(content: str):
+
+    ranges = []
+
+    for match in re.finditer(r"```.*?```", content, re.DOTALL):
+        ranges.append((match.start(), match.end()))
+
+    return ranges
+
+def IsInsideRanges(pos: int, ranges):
+
+    for start, end in ranges:
+        if start <= pos < end:
+            return True
+
+    return False
+
 def FixFileLinks(srcFile: str, nameToFile: dict):
 
     if not srcFile.lower().endswith(".md"):
@@ -80,10 +97,15 @@ def FixFileLinks(srcFile: str, nameToFile: dict):
     with open(srcFile, "r") as file:
         content = file.read()
 
+    codeBlockRanges = GetCodeBlockRanges(content)
+
     pattern = r"\#+\s+([^\n]+)\n"
     allowedSublinks: dict = {}
 
     for match in re.finditer(pattern, content):
+
+        if IsInsideRanges(match.start(), codeBlockRanges):
+            continue
 
         sublink = match.group(1).lower()
         sublink = sublink.replace(" ", "-")
@@ -102,6 +124,9 @@ def FixFileLinks(srcFile: str, nameToFile: dict):
     failure = False
 
     for match in re.finditer(pattern, content):
+
+        if IsInsideRanges(match.start(), codeBlockRanges):
+            continue
 
         fullPattern:str = match.group(0)
         displayName:str = match.group(1)

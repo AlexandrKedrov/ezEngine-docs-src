@@ -4,18 +4,17 @@
 
 ## Terrain
 
-Currently there are no tools for creating terrain. Terrain meshes are best build in external tools and imported as regular [static meshes](../graphics/meshes/meshes-overview.md).
-
-A popular method to represent terrain are heightmaps - 2D grayscale images, where the brightness of each pixel represents the height of the terrain at that location. ezEngine provides a [heightfield component](heightfield-component.md) which enables you to get such terrain data into the engine easily. However, this is only meant for simple use cases.
+ezEngine includes a brush-based [terrain system](terrain-plugin-overview.md) for creating heightfield and voxel terrain. Terrain is shaped by placing brush objects in the scene. The system is non-destructive, so brushes can be repositioned or removed at any time.
 
 ## Vegetation
 
 Vegetation can be created with standard meshes. Using custom [visual shaders](../materials/visual-shaders.md), a basic per-vertex wind animation can be applied.
 
-Additionally, ezEngine has built in support for [Kraut](kraut-overview.md), a system for procedurally generating tree meshes directly inside the editor.
+Additionally, ezEngine has built in support for [Kraut](kraut-overview.md), a system for procedurally generating tree meshes.
 
-Finally, there is a system to procedurally place objects, typically plants, around the current player position. This system is currently undocumented, but the [Testing Chambers](../../samples/testing-chambers.md) project contains scenes which show basic usage.
+Finally, there is a [procedural placement system](procedural/procedural-object-placement.md) to scatter objects, typically plants, around the current player position.
 
 ## See Also
 
-* [Heightfield Component](heightfield-component.md)
+* [Terrain System](terrain-plugin-overview.md)
+* [Procedural Object Placement](procedural/procedural-object-placement.md)

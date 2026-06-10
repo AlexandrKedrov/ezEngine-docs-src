@@ -258,6 +258,12 @@
 # Terrain and Vegetation
 ## [Terrain and Vegetation](terrain/terrain-overview.md)
 ## [Heightfield Component](terrain/heightfield-component.md)
+## [Terrain System](terrain/terrain-plugin-overview.md)
+## [Terrain Patch Component](terrain/terrain-patch-component.md)
+## [Terrain Volume Component](terrain/terrain-volume-component.md)
+## [Terrain Brush 2D Component](terrain/terrain-brush-2d-component.md)
+## [Terrain Brush 3D Component](terrain/terrain-brush-3d-component.md)
+## [Terrain Materials](terrain/terrain-materials.md)
 ## [Kraut](terrain/kraut-overview.md)
 ## [Kraut Tree Asset](terrain/kraut-tree-asset.md)
 ## [Kraut Tree Component](terrain/kraut-tree-component.md)

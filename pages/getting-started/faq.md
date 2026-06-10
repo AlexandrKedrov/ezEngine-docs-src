@@ -16,7 +16,7 @@ See [this page](../docs/build/building-ez.md) for instructions how to build the 
 
 ## Render API
 
-At the moment we (officially) only provide a **DX11 renderer**. A **Vulkan renderer** is in development.
+At the moment we provide a **DX11 renderer** and a **Vulkan renderer**. Vulkan will fully replace DX11 in the near future.
 
 ## Networking & Multiplayer
 
@@ -34,23 +34,19 @@ Yes, EZ has [visual scripting](../docs/custom-code/visual-script/visual-script-o
 
 We have an [AngelScript](../docs/custom-code/angelscript/angelscript-overview.md) binding which is pretty decent. The entire game logic in the [Testing Chambers](../samples/testing-chambers.md) project is done with this.
 
-## Terrain
-
-We currently have **no terrain system**. We have several ideas how we would like to do this, but this is very low priority at the moment. If you want to do terrain, you should just import static meshes. Of course that also means you need to do terrain sculpting in a separate tool. What we do have, is a simple [heightfield component](../docs/terrain/heightfield-component.md). For basic scenarios this may already be sufficient.
-
 ## AI
 
-We have an integration for building **nav-meshes with [Recast](../docs/appendix/third-party-code.md#recast)**. We also have some really crappy components to do simple steering. Those are awful and need to be rewritten. If you have experience with AI and would like to contribute something in this regard, we would be happy to get some help. AI has low priority for us at the moment, but since this is a very isolated problem domain, you could probably improve the status quo significantly, without having to know the engine too much in detail.
+We have an integration for building **nav-meshes with [Recast](../docs/appendix/third-party-code.md#recast)**. We also have some basic components to do steering. If you have experience with AI and would like to contribute something in this regard, we would be happy to get some help. AI has low priority for us at the moment, but since this is a very isolated problem domain, you could probably improve the status quo significantly, without having to know the engine too much in detail.
 
 ## Streaming
 
-All our resources (textures, materials, shaders, ...) always use streaming. However, we have **no level streaming**. Since we also don't have a terrain system, this is currently not really needed. However, we do have [asset collections](../docs/performance/asset-collections.md), which can be used to load data in the background. So you could build a system that instantiates e.g. a part of a level only once the background loading is finished. The building blocks are there, but it's not working out of the box.
+All our resources (textures, materials, shaders, ...) always use streaming. However, we have **no level streaming**, at the moment. However, we do have [asset collections](../docs/performance/asset-collections.md), which can be used to load data in the background. So you could build a system that instantiates e.g. a part of a level only once the background loading is finished. The building blocks are there, but it's not fully working out of the box.
 
 ## Roadmap
 
 We don't plan very far ahead. Here are the things we intend to work on in the near term.
 
-1. Vulkan renderer
+1. Better graphics
 1. Linux port
 1. General usability improvements
 1. Game AI functionality

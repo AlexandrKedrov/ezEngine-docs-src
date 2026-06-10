@@ -44,16 +44,16 @@ For the code snippets from here on we will use the example of a transient MSAA t
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: rendergraph-msaa-create-resources -->
 ```cpp
-  // Create transient MSAA texture
-  ezGALTextureCreationDescription descMsaa;
-  descMsaa.SetAsRenderTarget(64, 64, ezGALResourceFormat::RGBAHalf, ezGALMSAASampleCount::FourSamples);
-  ezRenderGraphTextureHandle hMsaaColor = graph.CreateTexture(descMsaa);
+// Create transient MSAA texture
+ezGALTextureCreationDescription descMsaa;
+descMsaa.SetAsRenderTarget(64, 64, ezGALResourceFormat::RGBAHalf, ezGALMSAASampleCount::FourSamples);
+ezRenderGraphTextureHandle hMsaaColor = graph.CreateTexture(descMsaa);
 
-  // Import persistent non-MSAA resolve target
-  ezGALTextureCreationDescription descResolved;
-  descResolved.SetAsRenderTarget(64, 64, ezGALResourceFormat::RGBAHalf);
-  ezGALTextureHandle hResolvedGAL = m_pDevice->CreateTexture(descResolved);
-  ezRenderGraphTextureHandle hResolved = graph.ImportTexture(hResolvedGAL);
+// Import persistent non-MSAA resolve target
+ezGALTextureCreationDescription descResolved;
+descResolved.SetAsRenderTarget(64, 64, ezGALResourceFormat::RGBAHalf);
+ezGALTextureHandle hResolvedGAL = m_pDevice->CreateTexture(descResolved);
+ezRenderGraphTextureHandle hResolved = graph.ImportTexture(hResolvedGAL);
 ```
 <!-- END-DOCS-CODE-SNIPPET -->
 
@@ -85,9 +85,9 @@ You can also optionally set a shader stage via `ezGALShaderStageFlags`. Only use
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: rendergraph-msaa-barriers -->
 ```cpp
-    auto pass = graph.AddTransferPass("MsaaColorResolve");
-    pass.ReadTexture(hMsaaColor, {}, ezGALResourceState::ResolveSource);
-    pass.WriteTexture(hResolved, {}, ezGALResourceState::ResolveDestination);
+auto pass = graph.AddTransferPass("MsaaColorResolve");
+pass.ReadTexture(hMsaaColor, {}, ezGALResourceState::ResolveSource);
+pass.WriteTexture(hResolved, {}, ezGALResourceState::ResolveDestination);
 ```
 <!-- END-DOCS-CODE-SNIPPET -->
 
@@ -107,13 +107,12 @@ You can set an execute callback that is run when the graph is executed later in 
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: rendergraph-msaa-execute-callback -->
 ```cpp
-    pass.SetExecuteCallback([=](const ezRenderGraphContext& ctx)
-    {
-      ezGALTextureSubresource subresource;
-      subresource.m_uiMipLevel = 0;
-      subresource.m_uiArraySlice = 0;
-      ctx.GetCommandEncoder()->ResolveTexture(ctx.ResolveTexture(hResolved), subresource, ctx.ResolveTexture(hMsaaColor), subresource);
-    });
+pass.SetExecuteCallback([=](const ezRenderGraphContext& ctx)
+  {
+  ezGALTextureSubresource subresource;
+  subresource.m_uiMipLevel = 0;
+  subresource.m_uiArraySlice = 0;
+  ctx.GetCommandEncoder()->ResolveTexture(ctx.ResolveTexture(hResolved), subresource, ctx.ResolveTexture(hMsaaColor), subresource); });
 ```
 <!-- END-DOCS-CODE-SNIPPET -->
 
@@ -126,14 +125,14 @@ Setting render targets implicitly defines barriers via `WriteTexture` so there i
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: rendergraph-graphics-pass -->
 ```cpp
-    auto pass = graph.AddGraphicsPass("RenderMSAA");
-    pass.AddColorTarget(hMsaaColor, {}, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store);
-    pass.SetClearColor(0, ezColor::CornflowerBlue);
-    pass.AddDepthStencilTarget(hMsaaDepth, {}, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store);
-    pass.SetClearDepth(1.0f);
-    pass.SetClearStencil(0);
-    pass.SetStereoscopic(false);
-    pass.HasSideEffects();
+auto pass = graph.AddGraphicsPass("RenderMSAA");
+pass.AddColorTarget(hMsaaColor, {}, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store);
+pass.SetClearColor(0, ezColor::CornflowerBlue);
+pass.AddDepthStencilTarget(hMsaaDepth, {}, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store, ezGALRenderTargetLoadOp::Clear, ezGALRenderTargetStoreOp::Store);
+pass.SetClearDepth(1.0f);
+pass.SetClearStencil(0);
+pass.SetStereoscopic(false);
+pass.HasSideEffects();
 ```
 <!-- END-DOCS-CODE-SNIPPET -->
 
@@ -170,4 +169,4 @@ For details on how to create a custom render pass using the render graph system,
 
 * [Render Pipeline](../render-pipeline/render-pipeline-overview.md)
 * [Render Pipeline Passes](../render-pipeline/render-pipeline-passes.md)
-* [Creating a Render Pass](graphics/render-pipeline/creating-a-render-pass.md)
+* [Creating a Render Pass](../render-pipeline/creating-a-render-pass.md)

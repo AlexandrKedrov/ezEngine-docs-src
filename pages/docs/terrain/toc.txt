@@ -1,5 +1,11 @@
 terrain-overview.md
 heightfield-component.md
+terrain-plugin-overview.md
+terrain-patch-component.md
+terrain-volume-component.md
+terrain-brush-2d-component.md
+terrain-brush-3d-component.md
+terrain-materials.md
 kraut-overview.md
 kraut-tree-asset.md
 kraut-tree-component.md

@@ -38,7 +38,7 @@ public:
   ezCopyTexturePass();
   ~ezCopyTexturePass();
 
-  virtual ezStatus AddRenderPasses(const ezViewData& viewData, const ezCamera& camera, ezRenderGraph& graph, const ezArrayPtr<const ezRenderPipelinePinConnection> inputs, ezArrayPtr<ezRenderPipelinePinConnection> outputs) override;
+  virtual ezStatus AddRenderPasses(const ezViewData& viewData, const ezCamera& camera, ezRenderGraph& ref_graph, const ezArrayPtr<const ezRenderPipelinePinConnection> inputs, ezArrayPtr<ezRenderPipelinePinConnection> outputs) override;
 
 protected:
   ezRenderPipelineNodeInputPin m_PinInput;
@@ -89,23 +89,21 @@ If your pass can be toggled off in the editor but downstream passes depend on it
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: renderpass-add-render-passes -->
 ```cpp
-ezStatus ezCopyTexturePass::AddRenderPasses(const ezViewData& viewData, const ezCamera& camera, ezRenderGraph& graph, const ezArrayPtr<const ezRenderPipelinePinConnection> inputs, ezArrayPtr<ezRenderPipelinePinConnection> outputs)
+ezStatus ezCopyTexturePass::AddRenderPasses(const ezViewData& viewData, const ezCamera& camera, ezRenderGraph& ref_graph, const ezArrayPtr<const ezRenderPipelinePinConnection> inputs, ezArrayPtr<ezRenderPipelinePinConnection> outputs)
 {
   ezRenderGraphTextureHandle hInput = inputs[m_PinInput.m_uiInputIndex].m_TextureHandle;
   if (hInput.IsInvalidated())
     return ezStatus(ezFmt("Input: Not connected"));
 
-  const ezGALTextureCreationDescription inputDesc = graph.GetTextureDesc(hInput);
-  ezRenderGraphTextureHandle hOutput = graph.CreateTexture(inputDesc);
+  const ezGALTextureCreationDescription inputDesc = ref_graph.GetTextureDesc(hInput);
+  ezRenderGraphTextureHandle hOutput = ref_graph.CreateTexture(inputDesc);
   outputs[m_PinOutput.m_uiOutputIndex].m_TextureHandle = hOutput;
 
-  auto pass = graph.AddTransferPass("CopyTexture");
+  auto pass = ref_graph.AddTransferPass("CopyTexture");
   pass.ReadTexture(hInput, {}, ezGALResourceState::CopySource);
   pass.WriteTexture(hOutput, {}, ezGALResourceState::CopyDestination);
   pass.SetExecuteCallback([=](const ezRenderGraphContext& ctx)
-  {
-    ctx.GetCommandEncoder()->CopyTexture(ctx.ResolveTexture(hOutput), ctx.ResolveTexture(hInput));
-  });
+    { ctx.GetCommandEncoder()->CopyTexture(ctx.ResolveTexture(hOutput), ctx.ResolveTexture(hInput)); });
 
   return EZ_SUCCESS;
 }
@@ -122,18 +120,22 @@ If your pass renders scene geometry, use `RenderDataWithCategory()` inside the c
 
 <!-- BEGIN-DOCS-CODE-SNIPPET: renderpass-render-objects -->
 ```cpp
-    ezRenderPipelinePass::SetupResourceDependencies(viewData, graph, pass, m_ShadingQuality);
-    pass.SetExecuteCallback([=](const ezRenderGraphContext& ctx)
-      {
-        const ezRenderViewContext& renderViewContext = *ctx.GetUserData<ezRenderViewContext>();
-        ezRenderPipelinePass::BindDataProviderResources(renderViewContext, m_ShadingQuality);
-        ezBindGroupBuilder& bindGroupRenderPass = renderViewContext.m_pRenderContext->GetBindGroup(EZ_GAL_BIND_GROUP_RENDER_PASS);
-        if (!hResolvedDepth.IsInvalidated())
-        {
-          bindGroupRenderPass.BindTexture("SceneDepth", ctx.ResolveTexture(hResolvedDepth));
-        }
-        RenderDataWithCategory(renderViewContext, ezDefaultRenderDataCategories::LitMeshDecal); //
-      });
+if (m_RenderDataCategory.IsValid())
+  DeclareRendererDependenciesForCategory(m_RenderDataCategory, ref_graph, pass);
+
+pass.SetExecuteCallback(
+  [=](const ezRenderGraphContext& ctx)
+  {
+    const ezRenderViewContext& renderViewContext = *ctx.GetUserData<ezRenderViewContext>();
+    if (!m_RenderDataCategory.IsValid())
+      return;
+
+    auto batchList = GetPipeline()->GetRenderDataBatchesWithCategory(m_RenderDataCategory);
+    if (batchList.GetBatchCount() == 0)
+      return;
+
+    RenderDataWithCategory(renderViewContext, m_RenderDataCategory);
+  });
 ```
 <!-- END-DOCS-CODE-SNIPPET -->
 
