@@ -50,7 +50,7 @@ The image below shows the difference of a texture that is completely black in th
 
 > **Note**
 >
-> The default texture filtering mode can be changed in C++ through `ezRenderContext::SetDefaultTextureFilter()`. Changing the value only affects textures loaded after the call, so set this at the start of your application.
+> The default texture filtering mode is controlled by the [CVar](../debugging/cvars.md) `Rendering.TextureQuality`. Changing its value takes effect immediately on all textures.
 
 **AddressMode:** Specifies whether a texture will be repeated when the texture coordinates used to sample the texture are outside the `[0; 1]` range. The 3D preview shows the effect of this property after you transform the asset.
 

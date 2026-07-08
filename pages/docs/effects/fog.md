@@ -22,8 +22,16 @@ The rotation and scale of the game object has no effect on the fog. The position
 
 * **HeightFalloff:** If set to zero, the fog is applied equally everywhere in the scene. Otherwise, the fog will only be applied to objects *below* the fog object. Thus, in this case, the position of the fog object defines which objects will be inside the fog and which are outside. The *HeightFalloff* value defines the distance over which the height fog transitions from foggy ground to clear sky. For example, a value of `1` means the fog changes from fully foggy to non-foggy over one meter and thus gives a relatively sharp transition. A value of `10` results in a much larger and softer transition.
 
+## Dynamic Fog via Blackboard
+
+The fog component reads the entries `Fog.Color`, `Fog.Density`, `Fog.HeightFalloff` and `Fog.StartDistance` from the world's [blackboard](../misc/blackboards.md), if present, and uses them instead of the component's own property values. If an entry named e.g. `Fog.Color_Strength` also exists, its value (`0` to `1`) is used to blend between the component's value and the blackboard's value, rather than fully overriding it.
+
+This allows fog to be changed dynamically, for example depending on which area of a level the camera is in. See the [Volume Sampler Component](../gameplay/volume-sampler-component.md) for a convenient way to write these values into the blackboard.
+
 ## See Also
 
 * [Sky](sky.md)
 * [Lighting](../graphics/lighting/lighting-overview.md)
 * [Particle Effects](particle-effects/particle-effects-overview.md)
+* [Volume Sampler Component](../gameplay/volume-sampler-component.md)
+* [Blackboards](../misc/blackboards.md)

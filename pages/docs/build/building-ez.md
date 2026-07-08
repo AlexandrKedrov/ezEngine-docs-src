@@ -9,6 +9,12 @@ To try out ezEngine, you can download a [precompiled binary package](../../getti
     * Check out the 'dev' branch.
 1. Unless your git client already checks out git sub-modules for you, also run `git submodule update --init`in your local clone. The EZ project uses submodules to deliver additional data such as [sample content](https://github.com/ezEngine/content) and [precompiled tools](https://github.com/ezEngine/precompiled-tools).
 
+## Renderer Selection
+
+On platforms that support it, both the D3D11 and Vulkan renderers are built by default. This is controlled by the CMake switches `EZ_BUILD_D3D11` and `EZ_BUILD_VULKAN`, which both default to `ON`. Set either of them to `OFF` to exclude that renderer from the build entirely.
+
+On Windows, D3D11 is used by default at runtime when both renderers are built. This can be overridden per run by passing `-renderer Vulkan` on the application's command line. To change the compiled-in default instead, set the CMake switch `EZ_DEFAULT_RENDERER` to `Vulkan` or `DX11`.
+
 ## Vulkan Rendering
 
 The Vulkan renderer in ezEngine no longer requires installing the Vulkan SDK. All necessary Vulkan dependencies (VMA, SPIRV-Reflect, and Vulkan-Headers) are included in the third-party folder and will be automatically available when building.

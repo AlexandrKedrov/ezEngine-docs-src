@@ -4,7 +4,7 @@ Volume components are used to define custom environmental conditions in areas of
 
 By itself, volume components have no functionality and no noticeable effect. They only specify an area and what values to use there. Values are usually specified by referencing a [blackboard template asset](../../misc/blackboard-template-asset.md). Other systems may use this information to implement behavior.
 
-One such system is the [post-processing component](post-processing-component.md) which uses these volumes to modify parameters of the rendering pipeline, for example to have different color grading per area.
+One such system is the [Volume Sampler Component](../../gameplay/volume-sampler-component.md), which can write sampled values into a [blackboard](../../misc/blackboards.md) to [modify parameters of the rendering pipeline](../../graphics/render-pipeline/render-pipeline-properties.md), for example to have different color grading per area.
 
 A custom system could for example also use these volumes to determine whether the player is inside water.
 
@@ -31,4 +31,5 @@ All volume components share these properties:
 
 ## See Also
 
-* [Post-Processing Component](post-processing-component.md)
+* [Volume Sampler Component](../../gameplay/volume-sampler-component.md)
+* [Render Pipeline Properties](../../graphics/render-pipeline/render-pipeline-properties.md)

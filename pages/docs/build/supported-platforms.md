@@ -4,7 +4,7 @@ ezEngine is developed primarily on Windows 11, using Visual Studio 2022 and 2026
 
 The code uses C++ 11, 14 and 17 features, but only where broad compiler support is available.
 
-The renderer currently uses DX11 on Windows and a Vulkan implementation is in progress. The editor is currently available on Windows, and being ported to Linux.
+On Windows, both the D3D11 and Vulkan renderers are built by default, with D3D11 used by default. Pass `-renderer Vulkan` on the command line to use the Vulkan renderer instead. The editor is currently available on Windows, and being ported to Linux.
 
 On Mac, Android and Linux only the base libraries are fully functional. Once the Vulkan renderer is more mature, the goal is to have most features available everywhere.
 

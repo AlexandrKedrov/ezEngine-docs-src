@@ -2,8 +2,6 @@
 
 Linux support for ezEngine is currently in development and still to be considered experimental and incomplete. You can try it, but don't expect to be able to work productively with it.
 
-For rendering the new Vulkan backend is used, which itself is also very much in development yet.
-
 We welcome help finding and fixing issues.
 
 ## Supported Compilers / Make Systems
@@ -113,7 +111,6 @@ Then invoke CMake with the following arguments:
 | `-DCMAKE_CXX_COMPILER=g++-12`          | Specify the C++ compiler to use. Optional, if not provided the system default will be used.                |
 | `-DCMAKE_C_COMPILER=gcc-12`            | Specify the C compiler to use. Optional, if not provided the system default will be used.                  |
 | `-DEZ_EXPERIMENTAL_EDITOR_ON_LINUX=ON` | Build the ezEngine editor on Linux. This is currently experimental and might have significant bugs.        |
-| `-DEZ_BUILD_EXPERIMENTAL_VULKAN=ON`    | Build the Vulkan renderer. This is currently experimental and might have significant bugs.                 |
 | `-DCMAKE_BUILD_TYPE=Dev`               | Specify the [build type](building-ez.md#build-types) to use.                                               |
 | `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON`   | Generate a `compile_commands.json` file to be used for code completion in editors like Visual Studio Code. |
 | `-DEZ_QT_DIR=/path/to/qt6` | Manually specify the path cmake should look for Qt 6 in. |
@@ -123,7 +120,7 @@ Example usage:
 
 ```bash
 mkdir build
-cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=g++-12 -DCMAKE_C_COMPILER=gcc-12 -DEZ_EXPERIMENTAL_EDITOR_ON_LINUX=ON -DEZ_BUILD_EXPERIMENTAL_VULKAN=ON -DCMAKE_BUILD_TYPE=Dev -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cmake -B build -S . -G Ninja -DCMAKE_CXX_COMPILER=g++-12 -DCMAKE_C_COMPILER=gcc-12 -DEZ_EXPERIMENTAL_EDITOR_ON_LINUX=ON -DCMAKE_BUILD_TYPE=Dev -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 ```
 
 ## Using Qt Creator

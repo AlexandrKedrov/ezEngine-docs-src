@@ -75,6 +75,8 @@ Note that rendering to a texture involves additional steps. See the chapter abou
 
 * `CameraRenderPipeline`: Allows you to select a specific [render pipeline](render-pipeline/render-pipeline-overview.md) that shall be used to render the output from this camera. Available render pipelines are set up in the [asset profiles](../assets/asset-profiles.md).
 
+* `BlackboardName`: Optional name of a [blackboard](../misc/blackboards.md) whose entries are used to override [render pipeline properties](render-pipeline/render-pipeline-properties.md) for this camera's view specifically, taking priority over the world's blackboard. Leave empty if the camera should only be affected by the world's blackboard.
+
 * `RenderTarget`, `RenderTargetOffset`, `RenderTargetSize`: Only available when `UsageHint` is set to `Render to Texture`.
 
 * `Aperture`, `ShutterTime`, `ISO`, `ExposureCompensation`: These options are currently only used for *tonemapping*. They all affect the final exposure value, which means you can adjust any one of them to change the brightness of the output. In the future these values may be used for motion blur and depth-of-field.

@@ -1,4 +1,5 @@
 render-pipeline-overview.md
 render-pipeline-extractors.md
 render-pipeline-passes.md
+render-pipeline-properties.md
 creating-a-render-pass.md

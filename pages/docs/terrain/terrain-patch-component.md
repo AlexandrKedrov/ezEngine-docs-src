@@ -10,9 +10,15 @@ For an overview of the terrain system, see [Terrain System](terrain-plugin-overv
 
 ## Placement
 
-You can place multiple terrain patches next to each other to cover large areas. As long as the *vertex density* is identical (the distance between each grid point, ie `Size` / `Resolution`), neighboring terrain patches will match up perfectly.
+You can place multiple terrain patches next to each other to cover large areas. Position each patch using its `Size` as the grid spacing, e.g. place patches with `Size` 64 exactly 64 units apart.
 
-If they don't match, you will see cracks like in the image below. This can be fine, if you place distant terrain for decoration purposes and want to go to a lower resolution, and know that those cracks are not visible from where the player can see.
+By default (unless `LodDistanceScale` is set to `0`), each patch renders a skirt: a downward strip of geometry around its border that overlaps into the neighboring patch. This hides the cracks that would otherwise appear where two patches meet, for instance if they render at different LOD levels, or use a different `Resolution`.
+
+The image below shows what the expected overlap looks like. Here two patches are placed next to each other. Above ground they match perfectly, below ground you see the skirt geometry curving downwards.
+
+![Terrain Overlap](media/terrain-overlap.jpg)
+
+The image below shows what those cracks would look like without a skirt (`LodDistanceScale` set to `0` on both patches) and a mismatched *vertex density* (ie `Size` / `Resolution`):
 
 ![Terrain Cracks](media/terrain-cracks.jpg)
 
@@ -22,13 +28,19 @@ Terrain patches are mostly edited through [2D terrain brushes](terrain-brush-2d-
 
 ## Performance
 
-Currently terrain patches don't support level-of-detail (LOD). That means they are always rendered at their full resolution, no matter how far away they are. Consequently, you should try to use less detail for far away patches.
-
 A good density for terrain patch vertices and quads is **half a meter** between vertices. So if your patch has a `Size` of 128 meters, use a `Resolution` of 256.
 
 The renderer only culls entire patches, so prefer to use multiple smaller patches, than few huge ones. Also only place patches where you need them. If your level is long and thin, don't use patches that are much wider, rather place multiple thin ones in a row.
 
 Terrain patches are much more memory efficient than [terrain volumes](terrain-volume-component.md). Use patches to cover large areas, use volumes only in places where you need overhangs. However, the pixel shader for patches can be more demanding, since terrain patches are able to blend many more material layers. If you determine that the material is too expensive, you can use a custom [terrain material](terrain-materials.md) that blends fewer layers or does less complex operations.
+
+### Level of Detail (LOD)
+
+Terrain patches automatically reduce their triangle count when the vertex density on screen exceeds what's needed, fading between LOD levels as the patch moves closer to or farther from the camera. LOD0 is the full resolution, LOD1 halves the vertex density in each direction (1/4 the triangle count), and LOD2 halves it again (1/16 the triangle count).
+
+The detail level is controlled by the CVar `Terrain.LodTargetCoverage`, which specifies the target screen-space size of a single grid cell. The `LodDistanceScale` property allows to fine tune this per patch.
+
+By default, *skirt* polygons are rendered around the border of each patch. This is a downward strip of geometry that overlaps with the neighboring patches, and is used to hide the cracks that would otherwise appear at the seam between patches, when neighboring patches render at different LOD levels or use different resolutions to begin with. The skirt is disabled when `LodDistanceScale` is set to 0.
 
 ## Component Properties
 
@@ -45,6 +57,8 @@ Terrain patches are much more memory efficient than [terrain volumes](terrain-vo
   * `HeightImageScale` — Multiplier used to scale the height image values.
 
   * `BaseMaterialIndex` — The material layer (0–31) assigned to vertices not covered by any brush.
+
+`LodDistanceScale` — Scales the distance at which this patch switches [LOD](#level-of-detail) levels. `1` uses the default distance (as configured by the `Terrain.LodTargetCoverage` CVar), values above `1` switch LOD later (at a greater distance, keeping detail longer), values below `1` switch earlier. Set to `0` ("LOD Disabled") to always render the patch at full resolution; this also turns off the skirt, since it is only needed to hide seams against a coarser LOD neighbor.
 
 `Collider` — Controls whether and at what detail a physics collision shape is generated at scene export time. Lower values save memory, but lose detail. Colliders are  needed when using [procedural object placement](procedural/procedural-object-placement.md). When possible, deactivate colliders (for far away terrain that's only there for decoration) or reduce its detail.
 

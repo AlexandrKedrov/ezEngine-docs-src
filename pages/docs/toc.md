@@ -75,6 +75,7 @@
 ### [Render Pipeline](graphics/render-pipeline/render-pipeline-overview.md)
 ### [Render Pipeline Extractors](graphics/render-pipeline/render-pipeline-extractors.md)
 ### [Render Pipeline Passes](graphics/render-pipeline/render-pipeline-passes.md)
+### [Render Pipeline Properties](graphics/render-pipeline/render-pipeline-properties.md)
 ### [Creating a Render Pass](graphics/render-pipeline/creating-a-render-pass.md)
 ## Render To Texture
 ### [Render Target Activator Component (TODO)](graphics/render-to-texture/render-target-activator-component.md)
@@ -179,7 +180,6 @@
 ### [Particle Effect Component](effects/particle-effects/particle-effect-component.md)
 ### [Particle Attractor Component](effects/particle-effects/particle-attractor-component.md)
 ## Post Processing
-### [Post-Processing Component](effects/post-processing/post-processing-component.md)
 ### [Volume Components](effects/post-processing/volume-components.md)
 ## Ropes
 ### [Fake Rope Component](effects/ropes/fake-rope-component.md)

@@ -8,6 +8,12 @@ Blackboards are a convenient data structure to share information between differe
 
 In C++ code you can use the `ezBlackboard` data structure directly. In scenes and [prefabs](../prefabs/prefabs-overview.md) you can attach a [blackboard component](local-blackboard-component.md) to an object. Systems that require a blackboard to function, such as [animation controllers](../animation/skeletal-animation/animation-graphs/animation-controller-component.md), will traverse the object hierarchy upwards to find a blackboard component which they can use to read and write their state.
 
+If no blackboard component is found on the object hierarchy, `ezBlackboardComponent::FindBlackboard()` falls back to the *world blackboard* (if no name is given) or a *global blackboard* with the given name (see below).
+
+## World Blackboards
+
+Every [world](../runtime/world/worlds.md) has its own blackboard, accessible through `ezWorld::GetBlackboard()`. This acts as a level-wide fallback for systems that look up a blackboard on an object hierarchy but don't find a local one, and is also where the [render pipeline](../graphics/render-pipeline/render-pipeline-properties.md) looks up dynamic properties, such as the fog settings on the [fog component](../effects/fog.md).
+
 ## Global Blackboards
 
 Through the [local blackboard component](local-blackboard-component.md) you add a blackbard to a specific object. These typically store object specific data that's used within that object hierarchy.
@@ -23,3 +29,5 @@ Similarly, if `ezBlackboardComponent::FindBlackboard()` is used, and a non-empty
 * [Blackboard Template Asset](blackboard-template-asset.md)
 * [Local Blackboard Component](local-blackboard-component.md)
 * [Global Blackboard Component](global-blackboard-component.md)
+* [Render Pipeline Properties](../graphics/render-pipeline/render-pipeline-properties.md)
+* [Volume Sampler Component](../gameplay/volume-sampler-component.md)

@@ -43,4 +43,4 @@ See the video below for an example:
 * [Lighting](../graphics/lighting/lighting-overview.md)
 * [Fog](fog.md)
 * [Sprite Component](../graphics/sprite-component.md)
-* [Post-Processing Component](post-processing/post-processing-component.md)
+* [Render Pipeline Properties](../graphics/render-pipeline/render-pipeline-properties.md)
