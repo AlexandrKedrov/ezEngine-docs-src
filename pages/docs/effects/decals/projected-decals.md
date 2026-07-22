@@ -24,7 +24,15 @@ This mode is useful for decals that should always darken or brighten the underly
 
 **Base Color:** The texture that defines the decal's color. If no separate *AlphaMask* texture is given, the alpha channel of this texture will also define the shape of the decal.
 
+If you only want the decal's shape and no color pattern, you can leave *Base Color* empty and specify just an *AlphaMask*. An opaque white base color is then generated, and the *decal component's* **Color** property can tint it per instance, which is more flexible than baking a color into the texture. At least one of *Base Color* and *AlphaMask* must be given.
+
 **Normal, ORM, Emissive:** If the respective *Mode* is selected, these settings show up for you to specify which textures to use to modify the *normal* and/or *occlusion/roughness/metalness*. If the mode is *BaseColor, Emissive*, a dedicated *Emissive* texture can be used to specify which pixels will glow with which color, though in that case you cannot overwrite the normal or ORM values.
+
+**NumVariationsX, NumVariationsY:** If these are larger than one, the textures are treated as a grid (a *flipbook*) of that many columns and rows, where each cell contains an independent variation of the decal. Each *decal component* then displays only a single cell, which is chosen randomly by default. All textures of the decal (base color, alpha mask, normal, ...) must use the same subdivision.
+
+Since the entire texture is packed into the decal atlas, and each cell's UV rectangle is only computed at runtime, make sure that every cell has enough empty border pixels around its content. Otherwise neighboring cells may bleed into each other when the decal is rendered at a distance and lower mipmaps are used.
+
+The asset thumbnail only shows the first cell.
 
 ## Decal Component
 
@@ -33,6 +41,8 @@ Each *decal component* represents a single instance of a decal. Its position, ro
 ### Decal Component Properties
 
 **Decals:** An array of decal asset references. When the game starts, a random decal from this list is chosen for display.
+
+**Variation:** Which variation of the decal texture to display. This only has an effect if the referenced decal asset uses *NumVariationsX / NumVariationsY* larger than one. The default *Auto* means that a variation is chosen randomly. Otherwise the variations are numbered starting at one, going left to right, top to bottom. Values that exceed the number of available variations wrap around.
 
 **ProjectionAxis:** The axis along which to project the decal.
 
