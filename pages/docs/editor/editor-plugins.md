@@ -109,7 +109,17 @@ PluginInfo
 	string %RequiredPlugins{}
 
 	// List of additional files that need to be shipped for the plugin to work right (usually other DLLs).
+	// These files are common for all build types. For defining build-specific dependencies use PackageDependenciesDev, PackageDependenciesDebug and PackageDependenciesShipping.
 	string %PackageDependencies{}
+
+	// List of additional files that need to be shipped only for Dev builds.
+	string %PackageDependenciesDev{}
+
+	// List of additional files that need to be shipped only for Debug builds.
+	string %PackageDependenciesDebug{}
+
+	// List of additional files that need to be shipped only for Shipping builds.
+	string %PackageDependenciesShipping{}
 	
 	// List of tags for "features" that this bundle provides. 
 	// Only one bundle with each feature may be selected.
